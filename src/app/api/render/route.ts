@@ -1,6 +1,4 @@
-import { renderBanners } from "@/lib/renderer";
-
-export const maxDuration = 120;
+import { prepareBanners } from "@/lib/renderer";
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +12,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const results = await renderBanners({
+    const banners = prepareBanners({
       channel,
       sizes: sizes || ["all"],
       headline,
@@ -23,11 +21,11 @@ export async function POST(request: Request) {
       productImageUrl,
     });
 
-    return Response.json({ banners: results });
+    return Response.json({ banners });
   } catch (error) {
     console.error("Render error:", error);
     return Response.json(
-      { error: "Failed to render banners" },
+      { error: "Failed to prepare banners" },
       { status: 500 }
     );
   }

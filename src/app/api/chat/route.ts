@@ -1,9 +1,9 @@
 import { openai, SYSTEM_PROMPT, TOOLS } from "@/lib/openai";
-import { renderBanners } from "@/lib/renderer";
+import { prepareBanners } from "@/lib/renderer";
 import { scrapeProductImage } from "@/lib/scraper";
 import type OpenAI from "openai";
 
-export const maxDuration = 120;
+export const maxDuration = 60;
 
 type ChatMessage = OpenAI.Chat.Completions.ChatCompletionMessageParam;
 
@@ -16,19 +16,12 @@ function getFn(tc: any) {
   };
 }
 
-/**
- * Execute a single tool call and return the string result.
- * For generate_banner, we return a special object with bannerUrls.
- */
 async function executeTool(
   name: string,
   args: Record<string, unknown>
-): Promise<
-  | { type: "text"; content: string }
-  | { type: "banners"; content: string; bannerUrls: string[]; bannerNames: string[] }
-> {
+): Promise<{ type: "text"; content: string } | { type: "banners"; content: string; banners: unknown[] }> {
   if (name === "generate_banner") {
-    const results = await renderBanners({
+    const banners = prepareBanners({
       channel: args.channel as string,
       sizes: args.sizes as string[],
       headline: args.headline as string,
@@ -41,11 +34,10 @@ async function executeTool(
       type: "banners",
       content: JSON.stringify({
         success: true,
-        generated: results.length,
-        names: results.map((r) => r.name),
+        generated: banners.length,
+        names: banners.map((b) => b.name),
       }),
-      bannerUrls: results.map((r) => r.dataUrl),
-      bannerNames: results.map((r) => r.name),
+      banners,
     };
   }
 
@@ -57,7 +49,7 @@ async function executeTool(
         ? JSON.stringify({ success: true, image_url: imageUrl })
         : JSON.stringify({
             success: false,
-            error: "Could not find product image on the page. Ask the user for a direct image URL.",
+            error: "Could not find product image. Ask the user for a direct image URL.",
           }),
     };
   }
@@ -65,7 +57,7 @@ async function executeTool(
   if (name === "generate_product_image") {
     let generatedUrl: string | undefined;
 
-    // Try Google Imagen first
+    // Try Google Imagen
     if (process.env.GOOGLE_API_KEY) {
       try {
         const res = await fetch(
@@ -86,9 +78,7 @@ async function executeTool(
         if (res.ok) {
           const data = await res.json();
           const b64 = data?.predictions?.[0]?.bytesBase64Encoded;
-          if (b64) {
-            generatedUrl = `data:image/png;base64,${b64}`;
-          }
+          if (b64) generatedUrl = `data:image/png;base64,${b64}`;
         }
       } catch (e) {
         console.error("Imagen error:", e);
@@ -115,10 +105,7 @@ async function executeTool(
       type: "text",
       content: generatedUrl
         ? JSON.stringify({ success: true, image_url: generatedUrl })
-        : JSON.stringify({
-            success: false,
-            error: "Image generation failed. Ask the user for a direct image URL instead.",
-          }),
+        : JSON.stringify({ success: false, error: "Image generation failed." }),
     };
   }
 
@@ -129,15 +116,13 @@ export async function POST(request: Request) {
   try {
     const { messages } = await request.json();
 
-    // Build the full message chain
     const allMessages: ChatMessage[] = [
       { role: "system", content: SYSTEM_PROMPT },
       ...messages,
     ];
 
-    // Agentic loop: keep calling OpenAI until we get a text response (no tool calls)
     const MAX_ITERATIONS = 5;
-    let bannerResult: { bannerUrls: string[]; bannerNames: string[] } | null = null;
+    let bannerResult: { banners: unknown[] } | null = null;
 
     for (let i = 0; i < MAX_ITERATIONS; i++) {
       const response = await openai.chat.completions.create({
@@ -149,7 +134,6 @@ export async function POST(request: Request) {
 
       const assistantMsg = response.choices[0].message;
 
-      // No tool calls — we have our final answer
       if (!assistantMsg.tool_calls || assistantMsg.tool_calls.length === 0) {
         return Response.json({
           message: assistantMsg.content || "",
@@ -157,11 +141,9 @@ export async function POST(request: Request) {
         });
       }
 
-      // Add the assistant message (with tool_calls) to the chain
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       allMessages.push(assistantMsg as any);
 
-      // Execute ALL tool calls and add their responses
       for (const toolCall of assistantMsg.tool_calls) {
         const fn = getFn(toolCall);
         let args: Record<string, unknown>;
@@ -173,16 +155,9 @@ export async function POST(request: Request) {
 
         try {
           const result = await executeTool(fn.name, args);
-
-          // If it's a banner result, save it for the final response
           if (result.type === "banners") {
-            bannerResult = {
-              bannerUrls: result.bannerUrls,
-              bannerNames: result.bannerNames,
-            };
+            bannerResult = { banners: result.banners };
           }
-
-          // Add tool response to the message chain
           allMessages.push({
             role: "tool",
             tool_call_id: fn.id,
@@ -201,11 +176,10 @@ export async function POST(request: Request) {
       }
     }
 
-    // If we exhausted iterations, return what we have
     return Response.json({
       message: bannerResult
-        ? `배너 ${bannerResult.bannerUrls.length}개가 생성되었습니다! 아래에서 확인하고 다운로드해주세요.`
-        : "처리 시간이 너무 길어졌습니다. 다시 시도해주세요.",
+        ? `배너 ${(bannerResult.banners as unknown[]).length}개가 생성되었습니다!`
+        : "처리 시간이 초과되었습니다. 다시 시도해주세요.",
       ...(bannerResult || {}),
     });
   } catch (error) {

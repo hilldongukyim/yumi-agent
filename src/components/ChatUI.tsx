@@ -1,6 +1,20 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import BannerRenderer from "./BannerRenderer";
+
+interface BannerConfig {
+  name: string;
+  width: number;
+  height: number;
+  layout: string;
+  hasSubcopy: boolean;
+  hasCTA: boolean;
+  headline: string;
+  subcopy?: string;
+  ctaText?: string;
+  productImageUrl?: string;
+}
 
 interface Message {
   role: "user" | "assistant";
@@ -19,6 +33,9 @@ export default function ChatUI() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [pendingBanners, setPendingBanners] = useState<BannerConfig[] | null>(null);
+  const [pendingMessage, setPendingMessage] = useState<string>("");
+  const [pendingMessages, setPendingMessages] = useState<Message[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -29,6 +46,25 @@ export default function ChatUI() {
   useEffect(() => {
     if (!isLoading) inputRef.current?.focus();
   }, [isLoading]);
+
+  const handleBannersRendered = useCallback(
+    (results: { name: string; dataUrl: string }[]) => {
+      const assistantMsg: Message = {
+        role: "assistant",
+        content:
+          pendingMessage ||
+          `배너 ${results.length}개가 생성되었습니다!\n\n아래에서 확인하고 다운로드해주세요. 수정이 필요하면 말씀해주세요.`,
+        bannerUrls: results.map((r) => r.dataUrl),
+        bannerNames: results.map((r) => r.name),
+      };
+      setMessages([...pendingMessages, assistantMsg]);
+      setPendingBanners(null);
+      setPendingMessage("");
+      setPendingMessages([]);
+      setIsLoading(false);
+    },
+    [pendingMessage, pendingMessages]
+  );
 
   const sendMessage = async () => {
     const text = input.trim();
@@ -54,11 +90,18 @@ export default function ChatUI() {
 
       const data = await res.json();
 
+      // If banners were generated, render them client-side
+      if (data.banners && data.banners.length > 0) {
+        setPendingBanners(data.banners);
+        setPendingMessage(data.message);
+        setPendingMessages(newMessages);
+        // Loading continues until banners are rendered
+        return;
+      }
+
       const assistantMsg: Message = {
         role: "assistant",
         content: data.message,
-        bannerUrls: data.bannerUrls,
-        bannerNames: data.bannerNames,
       };
       setMessages([...newMessages, assistantMsg]);
     } catch {
@@ -70,7 +113,9 @@ export default function ChatUI() {
         },
       ]);
     } finally {
-      setIsLoading(false);
+      if (!pendingBanners) {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -92,6 +137,14 @@ export default function ChatUI() {
 
   return (
     <div className="flex flex-col h-full max-w-3xl mx-auto">
+      {/* Client-side banner renderer (hidden) */}
+      {pendingBanners && (
+        <BannerRenderer
+          banners={pendingBanners}
+          onRendered={handleBannersRendered}
+        />
+      )}
+
       {/* Header */}
       <header className="flex items-center gap-3 px-6 py-4 border-b border-gray-200 bg-white">
         <div className="w-10 h-10 rounded-full bg-[#a50034] flex items-center justify-center text-white font-bold text-lg">
@@ -130,17 +183,14 @@ export default function ChatUI() {
                     </span>
                     <button
                       onClick={() =>
-                        downloadAll(
-                          msg.bannerUrls!,
-                          msg.bannerNames || []
-                        )
+                        downloadAll(msg.bannerUrls!, msg.bannerNames || [])
                       }
                       className="text-xs bg-[#a50034] text-white px-3 py-1 rounded-full hover:bg-[#8a002b] transition-colors"
                     >
                       전체 다운로드
                     </button>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto">
+                  <div className="grid grid-cols-2 gap-2 max-h-[500px] overflow-y-auto">
                     {msg.bannerUrls.map((url, j) => (
                       <div
                         key={j}
@@ -178,7 +228,9 @@ export default function ChatUI() {
                   <span className="typing-dot w-2 h-2 bg-gray-400 rounded-full" />
                   <span className="typing-dot w-2 h-2 bg-gray-400 rounded-full" />
                 </div>
-                <span className="text-xs text-gray-400">Yumi가 작업 중...</span>
+                <span className="text-xs text-gray-400">
+                  {pendingBanners ? "배너 렌더링 중..." : "Yumi가 작업 중..."}
+                </span>
               </div>
             </div>
           </div>
