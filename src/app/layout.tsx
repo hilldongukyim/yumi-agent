@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Yumi - Banner Agent",
-  description: "AI-powered banner creation assistant",
+  title: "Yumi - Banner Creation Agent",
+  description: "AI-powered banner creation assistant by LG",
 };
 
 export default function RootLayout({
@@ -18,10 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${geistSans.variable} h-full antialiased`}>
-      <body className="h-full flex flex-col bg-[var(--background)]">
-        {children}
-      </body>
+    <html lang="ko" className="h-full antialiased">
+      <body className="h-full flex flex-col">{children}</body>
     </html>
   );
 }

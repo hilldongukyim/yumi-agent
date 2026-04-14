@@ -1,36 +1,90 @@
 @import "tailwindcss";
 
+/* ===== LGEIText Font Family ===== */
+@font-face {
+  font-family: LGEIText;
+  src: url("/fonts/LGEIText-Light.otf") format("opentype");
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: LGEIText;
+  src: url("/fonts/LGEIText-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: LGEIText;
+  src: url("/fonts/LGEIText-SemiBold.otf") format("opentype");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: LGEIText;
+  src: url("/fonts/LGEIText-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* ===== Anita Design Tokens ===== */
 :root {
-  --background: #f7f7f8;
-  --foreground: #171717;
-  --yumi-purple: #a8006e;
-  --yumi-purple-light: #f3e5f5;
-  --yumi-gray: #e5e5e5;
+  --background: 34 24% 91%;
+  --foreground: 0 0% 20%;
+  --card: 30 16% 89%;
+  --card-foreground: 0 0% 20%;
+  --popover: 30 16% 89%;
+  --popover-foreground: 0 0% 20%;
+  --primary: 1 98% 59%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 1 98% 59%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 30 12% 85%;
+  --muted-foreground: 0 0% 53%;
+  --accent: 1 98% 59%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 30 10% 80%;
+  --input: 30 10% 80%;
+  --ring: 1 98% 59%;
+  --radius: 0.75rem;
+  --surface: 30 16% 89%;
+  --surface-hover: 30 12% 85%;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-surface: hsl(var(--surface));
+  --radius: 0.75rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: LGEIText, sans-serif;
 }
 
-/* Chat scrollbar */
+/* ===== Chat Scrollbar ===== */
 .chat-scroll::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 .chat-scroll::-webkit-scrollbar-thumb {
-  background: #ccc;
+  background: hsl(var(--border));
   border-radius: 3px;
 }
 
-/* Typing indicator */
+/* ===== Typing Indicator ===== */
 @keyframes typing {
   0%, 60%, 100% { opacity: 0.3; }
   30% { opacity: 1; }
@@ -39,11 +93,32 @@ body {
 .typing-dot:nth-child(2) { animation: typing 1.4s infinite 0.2s; }
 .typing-dot:nth-child(3) { animation: typing 1.4s infinite 0.4s; }
 
-/* Message fade-in */
+/* ===== Page Enter Animation ===== */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
 }
 .message-enter {
   animation: fadeInUp 0.3s ease-out;
 }
+
+/* ===== Bounce Arrow ===== */
+@keyframes bounce-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+.animate-bounce-gentle {
+  animation: bounce-gentle 2s ease-in-out infinite;
+}
+
+/* ===== Stagger Children ===== */
+.stagger > *:nth-child(1) { animation-delay: 0s; }
+.stagger > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger > *:nth-child(3) { animation-delay: 0.2s; }
+.stagger > *:nth-child(4) { animation-delay: 0.3s; }
+.stagger > *:nth-child(5) { animation-delay: 0.4s; }
+.stagger > *:nth-child(6) { animation-delay: 0.5s; }
+.stagger > *:nth-child(7) { animation-delay: 0.6s; }

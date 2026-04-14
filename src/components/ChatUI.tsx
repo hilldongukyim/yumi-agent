@@ -23,6 +23,8 @@ interface Message {
   bannerNames?: string[];
 }
 
+const STEPS = ["매체 선택", "사이즈", "헤드라인", "이미지", "생성"];
+
 export default function ChatUI() {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -33,8 +35,9 @@ export default function ChatUI() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0);
   const [pendingBanners, setPendingBanners] = useState<BannerConfig[] | null>(null);
-  const [pendingMessage, setPendingMessage] = useState<string>("");
+  const [pendingMessage, setPendingMessage] = useState("");
   const [pendingMessages, setPendingMessages] = useState<Message[]>([]);
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -46,6 +49,12 @@ export default function ChatUI() {
   useEffect(() => {
     if (!isLoading) inputRef.current?.focus();
   }, [isLoading]);
+
+  // Estimate current step from message count
+  useEffect(() => {
+    const userMsgCount = messages.filter((m) => m.role === "user").length;
+    setCurrentStep(Math.min(userMsgCount, STEPS.length - 1));
+  }, [messages]);
 
   const handleBannersRendered = useCallback(
     (results: { name: string; dataUrl: string }[]) => {
@@ -90,32 +99,21 @@ export default function ChatUI() {
 
       const data = await res.json();
 
-      // If banners were generated, render them client-side
       if (data.banners && data.banners.length > 0) {
         setPendingBanners(data.banners);
         setPendingMessage(data.message);
         setPendingMessages(newMessages);
-        // Loading continues until banners are rendered
         return;
       }
 
-      const assistantMsg: Message = {
-        role: "assistant",
-        content: data.message,
-      };
-      setMessages([...newMessages, assistantMsg]);
+      setMessages([...newMessages, { role: "assistant", content: data.message }]);
     } catch {
       setMessages([
         ...newMessages,
-        {
-          role: "assistant",
-          content: "죄송합니다, 오류가 발생했습니다. 다시 시도해주세요.",
-        },
+        { role: "assistant", content: "죄송합니다, 오류가 발생했습니다. 다시 시도해주세요." },
       ]);
     } finally {
-      if (!pendingBanners) {
-        setIsLoading(false);
-      }
+      if (!pendingBanners) setIsLoading(false);
     }
   };
 
@@ -136,128 +134,167 @@ export default function ChatUI() {
   };
 
   return (
-    <div className="flex flex-col h-full max-w-3xl mx-auto">
-      {/* Client-side banner renderer (hidden) */}
+    <div className="flex flex-col h-full animate-fade-in-up">
+      {/* Hidden banner renderer */}
       {pendingBanners && (
-        <BannerRenderer
-          banners={pendingBanners}
-          onRendered={handleBannersRendered}
-        />
+        <BannerRenderer banners={pendingBanners} onRendered={handleBannersRendered} />
       )}
 
-      {/* Header */}
-      <header className="flex items-center gap-3 px-6 py-4 border-b border-gray-200 bg-white">
-        <div className="w-10 h-10 rounded-full bg-[#a50034] flex items-center justify-center text-white font-bold text-lg">
-          Y
-        </div>
-        <div>
-          <h1 className="text-lg font-semibold text-gray-900">Yumi</h1>
-          <p className="text-xs text-gray-500">LG Banner Creation Agent</p>
-        </div>
-      </header>
+      {/* Fixed Nav — Anita style */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border">
+        <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
+          {/* Left: Logo */}
+          <div className="flex items-center gap-2">
+            <img src="/assets/lg-logo-white.png" alt="LG" className="h-7 w-auto invert opacity-80" />
+          </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto chat-scroll px-6 py-4 space-y-4">
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`message-enter flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-          >
-            <div
-              className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-                msg.role === "user"
-                  ? "bg-[#a50034] text-white rounded-br-sm"
-                  : "bg-white text-gray-800 border border-gray-200 rounded-bl-sm shadow-sm"
-              }`}
-            >
+          {/* Center: Step dots */}
+          <div className="flex items-center gap-2">
+            {STEPS.map((_, i) => (
               <div
-                dangerouslySetInnerHTML={{
-                  __html: formatMessage(msg.content),
-                }}
+                key={i}
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                  i === currentStep
+                    ? "bg-primary scale-125"
+                    : i < currentStep
+                      ? "bg-muted-foreground/60"
+                      : "bg-muted"
+                }`}
+                title={STEPS[i]}
               />
-              {msg.bannerUrls && msg.bannerUrls.length > 0 && (
-                <div className="mt-3">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-medium text-gray-500">
-                      {msg.bannerUrls.length}개 배너 생성됨
-                    </span>
-                    <button
-                      onClick={() =>
-                        downloadAll(msg.bannerUrls!, msg.bannerNames || [])
-                      }
-                      className="text-xs bg-[#a50034] text-white px-3 py-1 rounded-full hover:bg-[#8a002b] transition-colors"
-                    >
-                      전체 다운로드
-                    </button>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 max-h-[500px] overflow-y-auto">
-                    {msg.bannerUrls.map((url, j) => (
-                      <div
-                        key={j}
-                        className="relative group border border-gray-200 rounded-lg overflow-hidden bg-gray-50"
-                      >
-                        <img
-                          src={url}
-                          alt={msg.bannerNames?.[j] || `Banner ${j + 1}`}
-                          className="w-full h-auto object-contain"
-                        />
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                          <a
-                            href={url}
-                            download={`${msg.bannerNames?.[j] || `banner-${j + 1}`}.png`}
-                            className="opacity-0 group-hover:opacity-100 text-xs bg-white text-gray-800 px-3 py-1.5 rounded-full font-medium transition-opacity"
-                          >
-                            {msg.bannerNames?.[j] || `${j + 1}`}
-                          </a>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+            ))}
+          </div>
+
+          {/* Right: Agent name */}
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-full overflow-hidden border border-border">
+              <img src="/assets/yumi-avatar.png" alt="Yumi" className="w-full h-full object-cover" />
+            </div>
+            <span className="text-sm font-semibold text-foreground">Yumi</span>
+          </div>
+        </div>
+      </nav>
+
+      {/* Messages area */}
+      <div className="flex-1 overflow-y-auto chat-scroll pt-18 pb-24">
+        {/* Agent intro at top */}
+        <div className="flex flex-col items-center pt-8 pb-6 px-6">
+          <div className="w-14 h-14 rounded-full border-2 border-border shadow-sm overflow-hidden mb-3">
+            <img src="/assets/yumi-avatar.png" alt="Yumi" className="w-full h-full object-cover" />
+          </div>
+          <p className="text-muted-foreground text-sm text-center">
+            Yumi가 배너 제작을 도와드립니다
+          </p>
+        </div>
+
+        {/* Messages */}
+        <div className="max-w-3xl mx-auto px-6 space-y-4">
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`message-enter flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+            >
+              {msg.role === "assistant" && (
+                <div className="w-8 h-8 rounded-full overflow-hidden border border-border flex-shrink-0 mr-2 mt-1">
+                  <img src="/assets/yumi-avatar.png" alt="" className="w-full h-full object-cover" />
                 </div>
               )}
-            </div>
-          </div>
-        ))}
+              <div
+                className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                  msg.role === "user"
+                    ? "bg-primary text-primary-foreground rounded-br-sm"
+                    : "bg-card text-card-foreground border border-border rounded-bl-sm"
+                }`}
+              >
+                <div dangerouslySetInnerHTML={{ __html: formatMessage(msg.content) }} />
 
-        {isLoading && (
-          <div className="flex justify-start message-enter">
-            <div className="bg-white border border-gray-200 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
-              <div className="flex items-center gap-2">
-                <div className="flex gap-1">
-                  <span className="typing-dot w-2 h-2 bg-gray-400 rounded-full" />
-                  <span className="typing-dot w-2 h-2 bg-gray-400 rounded-full" />
-                  <span className="typing-dot w-2 h-2 bg-gray-400 rounded-full" />
-                </div>
-                <span className="text-xs text-gray-400">
-                  {pendingBanners ? "배너 렌더링 중..." : "Yumi가 작업 중..."}
-                </span>
+                {msg.bannerUrls && msg.bannerUrls.length > 0 && (
+                  <div className="mt-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-medium text-muted-foreground">
+                        {msg.bannerUrls.length}개 배너 생성됨
+                      </span>
+                      <button
+                        onClick={() => downloadAll(msg.bannerUrls!, msg.bannerNames || [])}
+                        className="text-xs bg-primary text-primary-foreground px-3 py-1 rounded-full hover:bg-primary/90 transition-colors"
+                      >
+                        전체 다운로드
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 max-h-[500px] overflow-y-auto">
+                      {msg.bannerUrls.map((url, j) => (
+                        <div
+                          key={j}
+                          className="relative group border border-border rounded-xl overflow-hidden bg-surface"
+                        >
+                          <img
+                            src={url}
+                            alt={msg.bannerNames?.[j] || `Banner ${j + 1}`}
+                            className="w-full h-auto object-contain"
+                          />
+                          <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/40 transition-colors duration-200 flex items-center justify-center">
+                            <a
+                              href={url}
+                              download={`${msg.bannerNames?.[j] || `banner-${j + 1}`}.png`}
+                              className="opacity-0 group-hover:opacity-100 text-xs bg-card text-card-foreground px-3 py-1.5 rounded-full font-medium transition-opacity duration-200"
+                            >
+                              {msg.bannerNames?.[j] || `${j + 1}`}
+                            </a>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        )}
-        <div ref={chatEndRef} />
+          ))}
+
+          {isLoading && (
+            <div className="flex justify-start message-enter">
+              <div className="w-8 h-8 rounded-full overflow-hidden border border-border flex-shrink-0 mr-2 mt-1">
+                <img src="/assets/yumi-avatar.png" alt="" className="w-full h-full object-cover" />
+              </div>
+              <div className="bg-card border border-border rounded-2xl rounded-bl-sm px-4 py-3">
+                <div className="flex items-center gap-2">
+                  <div className="flex gap-1">
+                    <span className="typing-dot w-2 h-2 bg-muted-foreground rounded-full" />
+                    <span className="typing-dot w-2 h-2 bg-muted-foreground rounded-full" />
+                    <span className="typing-dot w-2 h-2 bg-muted-foreground rounded-full" />
+                  </div>
+                  <span className="text-xs text-muted-foreground">
+                    {pendingBanners ? "배너 렌더링 중..." : "Yumi가 작업 중..."}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+          <div ref={chatEndRef} />
+        </div>
       </div>
 
-      {/* Input */}
-      <div className="px-6 py-4 border-t border-gray-200 bg-white">
-        <div className="flex items-end gap-3">
-          <textarea
-            ref={inputRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="메시지를 입력하세요..."
-            rows={1}
-            disabled={isLoading}
-            className="flex-1 resize-none rounded-xl border border-gray-300 px-4 py-3 text-sm focus:outline-none focus:border-[#a50034] focus:ring-1 focus:ring-[#a50034] disabled:opacity-50"
-          />
-          <button
-            onClick={sendMessage}
-            disabled={isLoading || !input.trim()}
-            className="h-11 px-5 rounded-xl bg-[#a50034] text-white text-sm font-medium hover:bg-[#8a002b] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            전송
-          </button>
+      {/* Input — fixed bottom */}
+      <div className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-xl border-t border-border">
+        <div className="max-w-3xl mx-auto px-6 py-4">
+          <div className="flex items-end gap-3">
+            <textarea
+              ref={inputRef}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="메시지를 입력하세요..."
+              rows={1}
+              disabled={isLoading}
+              className="flex-1 resize-none rounded-xl border border-border bg-white px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-50 transition-all duration-200"
+            />
+            <button
+              onClick={sendMessage}
+              disabled={isLoading || !input.trim()}
+              className="h-11 px-5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+            >
+              전송
+            </button>
+          </div>
         </div>
       </div>
     </div>
