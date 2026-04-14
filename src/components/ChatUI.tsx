@@ -16,11 +16,17 @@ interface BannerConfig {
   productImageUrl?: string;
 }
 
+interface PreviewImage {
+  url: string;
+  label: string;
+}
+
 interface Message {
   role: "user" | "assistant";
   content: string;
   bannerUrls?: string[];
   bannerNames?: string[];
+  previewImages?: PreviewImage[];
 }
 
 const STEPS = ["매체 선택", "사이즈", "헤드라인", "이미지", "생성"];
@@ -106,7 +112,12 @@ export default function ChatUI() {
         return;
       }
 
-      setMessages([...newMessages, { role: "assistant", content: data.message }]);
+      const assistantMsg: Message = {
+        role: "assistant",
+        content: data.message,
+        previewImages: data.previewImages,
+      };
+      setMessages([...newMessages, assistantMsg]);
     } catch {
       setMessages([
         ...newMessages,
@@ -207,6 +218,31 @@ export default function ChatUI() {
                 }`}
               >
                 <div dangerouslySetInnerHTML={{ __html: formatMessage(msg.content) }} />
+
+                {/* Image previews (product/lifestyle) */}
+                {msg.previewImages && msg.previewImages.length > 0 && (
+                  <div className="mt-3 space-y-2">
+                    {msg.previewImages.map((img, j) => (
+                      <div key={j} className="rounded-xl overflow-hidden border border-border bg-surface">
+                        <img
+                          src={img.url}
+                          alt={img.label}
+                          className="w-full max-h-64 object-contain bg-white"
+                        />
+                        <div className="px-3 py-2 text-xs text-muted-foreground flex items-center justify-between">
+                          <span>{img.label}</span>
+                          <a
+                            href={img.url}
+                            download={`${img.label}.png`}
+                            className="text-primary hover:underline"
+                          >
+                            다운로드
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 {msg.bannerUrls && msg.bannerUrls.length > 0 && (
                   <div className="mt-3">

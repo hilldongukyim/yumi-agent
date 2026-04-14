@@ -1,9 +1,16 @@
 import { openai, SYSTEM_PROMPT, TOOLS } from "@/lib/openai";
 import { prepareBanners } from "@/lib/renderer";
-import { scrapeProductImage } from "@/lib/scraper";
+import { scrapeProductInfo } from "@/lib/scraper";
+import {
+  composeLifestylePrompt,
+  generateLifestyleImage,
+  detectCountry,
+  detectCategory,
+  CATEGORY_MAP,
+} from "@/lib/anita";
 import type OpenAI from "openai";
 
-export const maxDuration = 60;
+export const maxDuration = 120;
 
 type ChatMessage = OpenAI.Chat.Completions.ChatCompletionMessageParam;
 
@@ -19,7 +26,11 @@ function getFn(tc: any) {
 async function executeTool(
   name: string,
   args: Record<string, unknown>
-): Promise<{ type: "text"; content: string } | { type: "banners"; content: string; banners: unknown[] }> {
+): Promise<
+  | { type: "text"; content: string }
+  | { type: "banners"; content: string; banners: unknown[] }
+  | { type: "preview"; content: string; previewImages: { url: string; label: string }[] }
+> {
   if (name === "generate_banner") {
     const banners = prepareBanners({
       channel: args.channel as string,
@@ -29,71 +40,111 @@ async function executeTool(
       ctaText: args.cta_text as string | undefined,
       productImageUrl: args.product_image_url as string | undefined,
     });
-
     return {
       type: "banners",
-      content: JSON.stringify({
-        success: true,
-        generated: banners.length,
-        names: banners.map((b) => b.name),
-      }),
+      content: JSON.stringify({ success: true, generated: banners.length, names: banners.map((b) => b.name) }),
       banners,
     };
   }
 
   if (name === "scrape_product_image") {
-    const imageUrl = await scrapeProductImage(args.pdp_url as string);
+    const info = await scrapeProductInfo(args.pdp_url as string);
+    if (info.imageUrl) {
+      const categoryName = info.category ? CATEGORY_MAP[info.category]?.name || info.category : "Unknown";
+      return {
+        type: "preview",
+        content: JSON.stringify({
+          success: true,
+          image_url: info.imageUrl,
+          title: info.title,
+          category: categoryName,
+          category_id: info.category,
+          country: info.country,
+          dimensions: info.dimensions,
+          all_images_count: info.allImages.length,
+        }),
+        previewImages: [
+          { url: info.imageUrl, label: info.title || "Product Image" },
+        ],
+      };
+    }
     return {
       type: "text",
-      content: imageUrl
-        ? JSON.stringify({ success: true, image_url: imageUrl })
-        : JSON.stringify({
-            success: false,
-            error: "Could not find product image. Ask the user for a direct image URL.",
-          }),
+      content: JSON.stringify({ success: false, error: "Could not find product image. Please provide a direct image URL." }),
+    };
+  }
+
+  if (name === "generate_lifestyle_image") {
+    const productImageUrl = args.product_image_url as string;
+    const categoryId = (args.category_id as string) || "tv";
+    const country = (args.country as string) || "_default";
+    const includePeople = (args.include_people as boolean) || false;
+    const width = (args.width as number) || 1920;
+    const height = (args.height as number) || 1080;
+
+    const prompt = composeLifestylePrompt({
+      categoryId,
+      country,
+      productDimensions: (args.product_dimensions as string) || "standard size",
+      includePeople,
+      width,
+      height,
+    });
+
+    const imageDataUrl = await generateLifestyleImage({
+      prompt,
+      productImageUrl,
+      width,
+      height,
+    });
+
+    if (imageDataUrl) {
+      return {
+        type: "preview",
+        content: JSON.stringify({ success: true, lifestyle_image_url: imageDataUrl }),
+        previewImages: [{ url: imageDataUrl, label: "Lifestyle Image (by Anita)" }],
+      };
+    }
+
+    return {
+      type: "text",
+      content: JSON.stringify({ success: false, error: "Lifestyle image generation failed. Try again or provide a direct image URL." }),
     };
   }
 
   if (name === "generate_product_image") {
     let generatedUrl: string | undefined;
+    const apiKey = process.env.GOOGLE_API_KEY;
 
-    // Try Google Imagen
-    if (process.env.GOOGLE_API_KEY) {
+    if (apiKey) {
       try {
         const res = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${process.env.GOOGLE_API_KEY}`,
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              instances: [
-                {
-                  prompt: `Professional product photo on pure white background: ${args.prompt}. Clean studio photography, centered, high resolution.`,
-                },
-              ],
-              parameters: { sampleCount: 1 },
+              contents: [{ parts: [{ text: `Professional product photo on pure white background: ${args.prompt}. Clean studio photography, centered, high resolution.` }] }],
+              generationConfig: { responseModalities: ["IMAGE", "TEXT"] },
             }),
           }
         );
         if (res.ok) {
           const data = await res.json();
-          const b64 = data?.predictions?.[0]?.bytesBase64Encoded;
+          const b64 = data?.candidates?.[0]?.content?.parts?.find((p: Record<string, unknown>) => p.inlineData)?.inlineData?.data;
           if (b64) generatedUrl = `data:image/png;base64,${b64}`;
         }
       } catch (e) {
-        console.error("Imagen error:", e);
+        console.error("Gemini image gen error:", e);
       }
     }
 
-    // Fall back to DALL-E
     if (!generatedUrl) {
       try {
         const dalleResponse = await openai.images.generate({
           model: "dall-e-3",
-          prompt: `Professional product photo on white background: ${args.prompt}. Clean, high-quality commercial photography, centered product, studio lighting.`,
-          n: 1,
-          size: "1024x1024",
-          quality: "standard",
+          prompt: `Professional product photo on white background: ${args.prompt}. Clean commercial photography.`,
+          n: 1, size: "1024x1024", quality: "standard",
         });
         generatedUrl = dalleResponse.data?.[0]?.url;
       } catch (e) {
@@ -121,8 +172,9 @@ export async function POST(request: Request) {
       ...messages,
     ];
 
-    const MAX_ITERATIONS = 5;
+    const MAX_ITERATIONS = 6;
     let bannerResult: { banners: unknown[] } | null = null;
+    let previewResult: { previewImages: { url: string; label: string }[] } | null = null;
 
     for (let i = 0; i < MAX_ITERATIONS; i++) {
       const response = await openai.chat.completions.create({
@@ -138,6 +190,7 @@ export async function POST(request: Request) {
         return Response.json({
           message: assistantMsg.content || "",
           ...(bannerResult || {}),
+          ...(previewResult || {}),
         });
       }
 
@@ -147,40 +200,32 @@ export async function POST(request: Request) {
       for (const toolCall of assistantMsg.tool_calls) {
         const fn = getFn(toolCall);
         let args: Record<string, unknown>;
-        try {
-          args = JSON.parse(fn.arguments);
-        } catch {
-          args = {};
-        }
+        try { args = JSON.parse(fn.arguments); } catch { args = {}; }
 
         try {
           const result = await executeTool(fn.name, args);
           if (result.type === "banners") {
-            bannerResult = { banners: result.banners };
+            bannerResult = { banners: (result as { banners: unknown[] }).banners };
           }
-          allMessages.push({
-            role: "tool",
-            tool_call_id: fn.id,
-            content: result.content,
-          });
+          if (result.type === "preview") {
+            previewResult = { previewImages: (result as { previewImages: { url: string; label: string }[] }).previewImages };
+          }
+          allMessages.push({ role: "tool", tool_call_id: fn.id, content: result.content });
         } catch (error) {
           console.error(`Tool ${fn.name} error:`, error);
           allMessages.push({
             role: "tool",
             tool_call_id: fn.id,
-            content: JSON.stringify({
-              error: error instanceof Error ? error.message : "Tool execution failed",
-            }),
+            content: JSON.stringify({ error: error instanceof Error ? error.message : "Tool failed" }),
           });
         }
       }
     }
 
     return Response.json({
-      message: bannerResult
-        ? `배너 ${(bannerResult.banners as unknown[]).length}개가 생성되었습니다!`
-        : "처리 시간이 초과되었습니다. 다시 시도해주세요.",
+      message: "처리를 완료했습니다.",
       ...(bannerResult || {}),
+      ...(previewResult || {}),
     });
   } catch (error) {
     console.error("Chat API error:", error);
