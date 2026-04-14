@@ -8,6 +8,7 @@ export interface ProductInfo {
   category: string | null;
   country: string;
   pdpUrl: string;
+  ctaText: string | null;
 }
 
 /**
@@ -23,6 +24,7 @@ export async function scrapeProductInfo(pdpUrl: string): Promise<ProductInfo> {
     category: null,
     country: detectCountryFromUrl(pdpUrl),
     pdpUrl,
+    ctaText: null,
   };
 
   try {
@@ -101,6 +103,28 @@ export async function scrapeProductInfo(pdpUrl: string): Promise<ProductInfo> {
       const match = bodyText.match(pat);
       if (match) {
         result.dimensions = match[0];
+        break;
+      }
+    }
+
+    // CTA text — extract from purchase/add-to-cart buttons
+    const ctaSelectors = [
+      'button[data-testid*="cart"]',
+      'button[data-testid*="buy"]',
+      '.buy-now',
+      '.add-to-cart',
+      'button[class*="cart"]',
+      'button[class*="buy"]',
+      'a[class*="buy"]',
+      '[class*="purchase"] button',
+      '[class*="cta"] button',
+      'button[type="submit"]',
+    ];
+    for (const sel of ctaSelectors) {
+      const ctaEl = $(sel).first();
+      const ctaText = ctaEl.text().trim();
+      if (ctaText && ctaText.length < 40) {
+        result.ctaText = ctaText;
         break;
       }
     }

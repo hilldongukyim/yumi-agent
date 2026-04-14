@@ -1,9 +1,9 @@
 /**
  * Server-side: returns banner config data for client-side rendering.
- * No Puppeteer — rendering happens in the browser with html2canvas.
+ * Includes exact Figma font sizes per frame.
  */
 
-import { getSelectedFrames, FrameConfig } from "./config";
+import { getSelectedFrames } from "./config";
 
 interface RenderRequest {
   channel: string;
@@ -19,10 +19,11 @@ export interface BannerConfig {
   width: number;
   height: number;
   layout: string;
-  hasSubcopy: boolean;
-  hasCTA: boolean;
-  headline: string;
-  subcopy?: string;
+  headline: { fontSize: number; fontWeight: number; lineHeight: number };
+  subcopy?: { fontSize: number; fontWeight: number; lineHeight: number };
+  cta?: { fontSize: number; fontWeight: number; lineHeight: number };
+  headlineText: string;
+  subcopText?: string;
   ctaText?: string;
   productImageUrl?: string;
 }
@@ -40,10 +41,11 @@ export function prepareBanners(req: RenderRequest): BannerConfig[] {
     width: frame.width,
     height: frame.height,
     layout: frame.layout,
-    hasSubcopy: frame.hasSubcopy,
-    hasCTA: frame.hasCTA,
-    headline: req.headline,
-    subcopy: req.subcopy,
+    headline: frame.headline,
+    subcopy: frame.subcopy,
+    cta: frame.cta,
+    headlineText: req.headline,
+    subcopText: req.subcopy,
     ctaText: req.ctaText,
     productImageUrl: req.productImageUrl,
   }));

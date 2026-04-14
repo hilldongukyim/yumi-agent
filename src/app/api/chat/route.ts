@@ -61,6 +61,7 @@ async function executeTool(
           category_id: info.category,
           country: info.country,
           dimensions: info.dimensions,
+          cta_text_from_pdp: info.ctaText,
           all_images_count: info.allImages.length,
         }),
         previewImages: [

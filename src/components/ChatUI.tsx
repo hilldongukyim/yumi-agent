@@ -3,15 +3,22 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import BannerRenderer from "./BannerRenderer";
 
+interface TextStyle {
+  fontSize: number;
+  fontWeight: number;
+  lineHeight: number;
+}
+
 interface BannerConfig {
   name: string;
   width: number;
   height: number;
   layout: string;
-  hasSubcopy: boolean;
-  hasCTA: boolean;
-  headline: string;
-  subcopy?: string;
+  headline: TextStyle;
+  subcopy?: TextStyle;
+  cta?: TextStyle;
+  headlineText: string;
+  subcopText?: string;
   ctaText?: string;
   productImageUrl?: string;
 }
