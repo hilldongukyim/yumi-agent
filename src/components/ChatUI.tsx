@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import { buildZipSync, dataUrlToUint8Array } from "@/lib/zipSync";
 import BannerRenderer, { type BannerConfig } from "./BannerRenderer";
 
 interface PreviewImage {
@@ -32,6 +33,7 @@ export default function ChatUI() {
   const [pendingBanners, setPendingBanners] = useState<BannerConfig[] | null>(null);
   const [pendingMessage, setPendingMessage] = useState("");
   const [pendingMessages, setPendingMessages] = useState<Message[]>([]);
+  const [zipBlobUrls, setZipBlobUrls] = useState<Record<number, string>>({});
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -47,6 +49,25 @@ export default function ChatUI() {
   useEffect(() => {
     const userMsgCount = messages.filter((m) => m.role === "user").length;
     setCurrentStep(Math.min(userMsgCount, STEPS.length - 1));
+  }, [messages]);
+
+  // Pre-generate ZIP blobs for messages with banners (runs synchronously so blob URL is ready before user clicks)
+  useEffect(() => {
+    messages.forEach((msg, idx) => {
+      if (msg.bannerUrls && msg.bannerUrls.length > 0 && !zipBlobUrls[idx]) {
+        try {
+          const files = msg.bannerUrls.map((url, i) => ({
+            name: `${msg.bannerNames?.[i] || `banner-${i + 1}`}.png`,
+            data: dataUrlToUint8Array(url),
+          }));
+          const blob = buildZipSync(files);
+          const blobUrl = URL.createObjectURL(blob);
+          setZipBlobUrls((prev) => ({ ...prev, [idx]: blobUrl }));
+        } catch (e) {
+          console.error("ZIP generation error:", e);
+        }
+      }
+    });
   }, [messages]);
 
   const handleBannersRendered = useCallback(
@@ -133,14 +154,7 @@ export default function ChatUI() {
     }
   };
 
-  const downloadAll = (urls: string[], names: string[]) => {
-    urls.forEach((url, i) => {
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${names[i] || `banner-${i + 1}`}.png`;
-      a.click();
-    });
-  };
+
 
   return (
     <div className="flex flex-col h-full animate-fade-in-up">
@@ -198,9 +212,9 @@ export default function ChatUI() {
 
         {/* Messages */}
         <div className="max-w-3xl mx-auto px-6 space-y-4">
-          {messages.map((msg, i) => (
+          {messages.map((msg, msgIdx) => (
             <div
-              key={i}
+              key={msgIdx}
               className={`message-enter flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
             >
               {msg.role === "assistant" && (
@@ -248,12 +262,17 @@ export default function ChatUI() {
                       <span className="text-xs font-medium text-muted-foreground">
                         {msg.bannerUrls.length}개 배너 생성됨
                       </span>
-                      <button
-                        onClick={() => downloadAll(msg.bannerUrls!, msg.bannerNames || [])}
-                        className="text-xs bg-primary text-primary-foreground px-3 py-1 rounded-full hover:bg-primary/90 transition-colors"
-                      >
-                        전체 다운로드
-                      </button>
+                      {zipBlobUrls[msgIdx] ? (
+                        <a
+                          href={zipBlobUrls[msgIdx]}
+                          download="yumi-banners.zip"
+                          className="text-xs bg-primary text-primary-foreground px-3 py-1 rounded-full hover:bg-primary/90 transition-colors"
+                        >
+                          전체 다운로드
+                        </a>
+                      ) : (
+                        <span className="text-xs text-muted-foreground px-3 py-1">준비 중...</span>
+                      )}
                     </div>
                     <div className="grid grid-cols-2 gap-2 max-h-[500px] overflow-y-auto">
                       {msg.bannerUrls.map((url, j) => (

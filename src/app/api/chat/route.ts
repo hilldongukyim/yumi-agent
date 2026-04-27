@@ -78,6 +78,7 @@ async function executeTool(
           subcopy: args.subcopy,
           ctaText: args.cta_text,
           lifestyleImageUrl,
+          productImageUrl,
         }
       }),
       banners,
