@@ -270,8 +270,9 @@ export async function POST(request: Request) {
               const resData = JSON.parse(result.content);
               figmaPayload = resData.figmaPayload;
             } catch (e) {}
+            const newBanners = (result as { banners: unknown[] }).banners;
             bannerResult = {
-              banners: (result as { banners: unknown[] }).banners,
+              banners: [...((bannerResult?.banners as unknown[]) || []), ...newBanners],
               figmaPayload,
             } as { banners: unknown[]; figmaPayload?: unknown };
           }
