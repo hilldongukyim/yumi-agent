@@ -23,26 +23,63 @@ function getFn(tc: any) {
   };
 }
 
+interface RequestState {
+  productImageUrl?: string;
+  lifestyleImageUrl?: string;
+}
+
 async function executeTool(
   name: string,
-  args: Record<string, unknown>
+  args: Record<string, unknown>,
+  state: RequestState
 ): Promise<
   | { type: "text"; content: string }
   | { type: "banners"; content: string; banners: unknown[] }
   | { type: "preview"; content: string; previewImages: { url: string; label: string }[] }
 > {
   if (name === "generate_banner") {
+    const productImageUrl =
+      (args.product_image_url as string | undefined) || state.productImageUrl;
+    const lifestyleImageUrl =
+      (args.lifestyle_image_url as string | undefined) || state.lifestyleImageUrl;
+      
     const banners = prepareBanners({
       channel: args.channel as string,
       sizes: args.sizes as string[],
       headline: args.headline as string,
       subcopy: args.subcopy as string | undefined,
       ctaText: args.cta_text as string | undefined,
-      productImageUrl: args.product_image_url as string | undefined,
+      productImageUrl,
+      lifestyleImageUrl,
     });
+    
+    // Asynchronously trigger figma update if relay server is configured
+    try {
+      // In this environment we can't easily self-fetch the route API, so we fetch the relay directly here
+      // Alternatively, we let the frontend do it to avoid blocking the chat response.
+      // We will add a flag to tell the frontend to push to figma.
+    } catch (e) {
+      console.error(e);
+    }
+
     return {
       type: "banners",
-      content: JSON.stringify({ success: true, generated: banners.length, names: banners.map((b) => b.name) }),
+      content: JSON.stringify({
+        success: true,
+        generated: banners.length,
+        names: banners.map((b) => b.spec.name),
+        used_product_image: !!productImageUrl,
+        used_lifestyle_image: !!lifestyleImageUrl,
+        // Frontend will use these payload to call /api/figma-update
+        figmaPayload: {
+          channel: args.channel,
+          sizes: args.sizes,
+          headline: args.headline,
+          subcopy: args.subcopy,
+          ctaText: args.cta_text,
+          lifestyleImageUrl,
+        }
+      }),
       banners,
     };
   }
@@ -50,6 +87,7 @@ async function executeTool(
   if (name === "scrape_product_image") {
     const info = await scrapeProductInfo(args.pdp_url as string);
     if (info.imageUrl) {
+      state.productImageUrl = info.imageUrl;
       const categoryName = info.category ? CATEGORY_MAP[info.category]?.name || info.category : "Unknown";
       return {
         type: "preview",
@@ -100,9 +138,14 @@ async function executeTool(
     });
 
     if (imageDataUrl) {
+      const isDataUrl = imageDataUrl.startsWith("data:");
+      state.lifestyleImageUrl = imageDataUrl;
       return {
         type: "preview",
-        content: JSON.stringify({ success: true, lifestyle_image_url: imageDataUrl }),
+        content: JSON.stringify({
+          success: true,
+          lifestyle_image_url: isDataUrl ? "[generated inline image stored for banner]" : imageDataUrl,
+        }),
         previewImages: [{ url: imageDataUrl, label: "Lifestyle Image (by Anita)" }],
       };
     }
@@ -115,28 +158,33 @@ async function executeTool(
 
   if (name === "generate_product_image") {
     let generatedUrl: string | undefined;
-    const apiKey = process.env.GOOGLE_API_KEY;
+    const falKey = process.env.FAL_KEY;
 
-    if (apiKey) {
+    if (falKey) {
       try {
-        const res = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: `Professional product photo on pure white background: ${args.prompt}. Clean studio photography, centered, high resolution.` }] }],
-              generationConfig: { responseModalities: ["IMAGE", "TEXT"] },
-            }),
-          }
-        );
+        const res = await fetch("https://fal.run/fal-ai/nano-banana-pro", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Key ${falKey}`,
+          },
+          body: JSON.stringify({
+            prompt: `Professional product photo on pure white background: ${args.prompt}. Clean studio photography, centered, high resolution.`,
+            num_images: 1,
+            output_format: "jpeg",
+            aspect_ratio: "1:1",
+            sync_mode: true,
+          }),
+        });
         if (res.ok) {
           const data = await res.json();
-          const b64 = data?.candidates?.[0]?.content?.parts?.find((p: Record<string, unknown>) => p.inlineData)?.inlineData?.data;
-          if (b64) generatedUrl = `data:image/png;base64,${b64}`;
+          const url = data?.images?.[0]?.url;
+          if (typeof url === "string" && url.length > 0) generatedUrl = url;
+        } else {
+          console.error("fal.ai nano-banana-pro error:", res.status, await res.text());
         }
       } catch (e) {
-        console.error("Gemini image gen error:", e);
+        console.error("fal.ai image gen error:", e);
       }
     }
 
@@ -153,11 +201,21 @@ async function executeTool(
       }
     }
 
+    if (generatedUrl) {
+      const isDataUrl = generatedUrl.startsWith("data:");
+      state.productImageUrl = generatedUrl;
+      return {
+        type: "preview",
+        content: JSON.stringify({
+          success: true,
+          image_url: isDataUrl ? "[generated inline image stored for banner]" : generatedUrl,
+        }),
+        previewImages: [{ url: generatedUrl, label: "Product Image" }],
+      };
+    }
     return {
       type: "text",
-      content: generatedUrl
-        ? JSON.stringify({ success: true, image_url: generatedUrl })
-        : JSON.stringify({ success: false, error: "Image generation failed." }),
+      content: JSON.stringify({ success: false, error: "Image generation failed." }),
     };
   }
 
@@ -176,6 +234,7 @@ export async function POST(request: Request) {
     const MAX_ITERATIONS = 6;
     let bannerResult: { banners: unknown[] } | null = null;
     let previewResult: { previewImages: { url: string; label: string }[] } | null = null;
+    const state: RequestState = {};
 
     for (let i = 0; i < MAX_ITERATIONS; i++) {
       const response = await openai.chat.completions.create({
@@ -204,9 +263,17 @@ export async function POST(request: Request) {
         try { args = JSON.parse(fn.arguments); } catch { args = {}; }
 
         try {
-          const result = await executeTool(fn.name, args);
+          const result = await executeTool(fn.name, args, state);
           if (result.type === "banners") {
-            bannerResult = { banners: (result as { banners: unknown[] }).banners };
+            let figmaPayload = undefined;
+            try {
+              const resData = JSON.parse(result.content);
+              figmaPayload = resData.figmaPayload;
+            } catch (e) {}
+            bannerResult = { 
+              banners: (result as { banners: unknown[] }).banners,
+              figmaPayload
+            };
           }
           if (result.type === "preview") {
             previewResult = { previewImages: (result as { previewImages: { url: string; label: string }[] }).previewImages };

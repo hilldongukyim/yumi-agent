@@ -160,90 +160,158 @@ export function composeLifestylePrompt(opts: {
   return prompt;
 }
 
-// ===== Generate lifestyle image via Gemini (nanobanana pro) =====
+// ===== Map width/height → fal.ai aspect_ratio =====
+function toAspectRatio(width: number, height: number): string {
+  const supported: Array<[string, number]> = [
+    ["21:9", 21 / 9],
+    ["16:9", 16 / 9],
+    ["4:3", 4 / 3],
+    ["3:2", 3 / 2],
+    ["1:1", 1],
+    ["2:3", 2 / 3],
+    ["3:4", 3 / 4],
+    ["9:16", 9 / 16],
+    ["9:21", 9 / 21],
+  ];
+  const target = width / height;
+  let best = supported[0];
+  let bestDiff = Infinity;
+  for (const entry of supported) {
+    const diff = Math.abs(entry[1] - target);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      best = entry;
+    }
+  }
+  return best[0];
+}
+
+// ===== Generate lifestyle image via fal.ai nano-banana-pro =====
+const ANITA_SYS_PROMPT = `You are a professional lifestyle photographer and product placement specialist.
+
+CRITICAL SIZE ACCURACY INSTRUCTIONS:
+- Use exact dimensions to determine the product's real-world scale
+- Place the product in the scene with ACCURATE proportions relative to furniture and surroundings
+- The product should look naturally sized - not too large or too small for the space
+- Use reference objects in the scene to establish correct scale perception
+
+INSTRUCTIONS:
+1. First, analyze the product in the image - identify what type of product it is (electronics, appliance, furniture, etc.)
+2. Based on the product type, determine the ideal target persona.
+3. Create a highly detailed lifestyle scene description (prompt for an image generator) that:
+   - Matches the target market and interior style requested
+   - Places the product naturally as if in actual use or display
+   - Uses appropriate lighting and includes contextual elements
+   - MAINTAINS ACCURATE PRODUCT SIZE based on the provided dimensions
+   
+ONLY output the final image generation prompt in English, with NO extra conversational text. Focus entirely on visual descriptions: camera angle, lighting, room environment, furniture, and exact product placement.`;
+
 export async function generateLifestyleImage(opts: {
   prompt: string;
   productImageUrl: string;
   width?: number;
   height?: number;
 }): Promise<string | null> {
-  const apiKey = process.env.GOOGLE_API_KEY;
-  if (!apiKey) {
-    console.error("GOOGLE_API_KEY not set");
+  const falKey = process.env.FAL_KEY;
+  const googleKey = process.env.GOOGLE_API_KEY;
+
+  if (!falKey) {
+    console.error("FAL_KEY not set");
     return null;
   }
 
-  try {
-    // Fetch product image and convert to base64
-    let imageBase64: string | null = null;
-    if (opts.productImageUrl) {
-      try {
-        const imgRes = await fetch(opts.productImageUrl);
-        const imgBuffer = await imgRes.arrayBuffer();
-        imageBase64 = Buffer.from(imgBuffer).toString("base64");
-      } catch (e) {
-        console.error("Failed to fetch product image:", e);
-      }
-    }
+  const width = opts.width || 1920;
+  const height = opts.height || 1080;
 
-    // Call Gemini 2.5 Flash with image generation
-    const requestBody: Record<string, unknown> = {
-      contents: [
-        {
-          parts: [
-            ...(imageBase64
-              ? [
-                  {
-                    inlineData: {
-                      mimeType: "image/jpeg",
-                      data: imageBase64,
-                    },
-                  },
-                ]
-              : []),
+  let optimalPrompt = opts.prompt;
+
+  // Step 1: Gemini Anita Brain (Analyze image & Generate optimal scene prompt)
+  if (googleKey && opts.productImageUrl) {
+    try {
+      console.log("Analyzing product with Gemini 1.5 Flash...");
+      const imgRes = await fetch(opts.productImageUrl);
+      if (imgRes.ok) {
+        const arrayBuffer = await imgRes.arrayBuffer();
+        const base64Image = Buffer.from(arrayBuffer).toString("base64");
+        const mimeType = imgRes.headers.get("content-type") || "image/jpeg";
+
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${googleKey}`;
+        const geminiReq = {
+          contents: [
             {
-              text: opts.prompt,
-            },
-          ],
-        },
-      ],
-      generationConfig: {
-        responseModalities: ["IMAGE", "TEXT"],
-        imageSizeOptions: {
-          width: opts.width || 1920,
-          height: opts.height || 1080,
-        },
-      },
+              role: "user",
+              parts: [
+                { text: `${ANITA_SYS_PROMPT}\n\nUSER REQUEST (Follow these specific guidelines):\n${opts.prompt}` },
+                { inline_data: { mime_type: mimeType, data: base64Image } }
+              ]
+            }
+          ]
+        };
+
+        const geminiRes = await fetch(geminiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(geminiReq)
+        });
+
+        if (geminiRes.ok) {
+          const geminiData = await geminiRes.json();
+          const extractedText = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (extractedText && extractedText.trim().length > 0) {
+            optimalPrompt = extractedText.trim();
+            console.log("Gemini optimal prompt generated:", optimalPrompt.slice(0, 100) + "...");
+          }
+        } else {
+          console.error("Gemini optimization failed:", await geminiRes.text());
+        }
+      }
+    } catch (e) {
+      console.error("Gemini optimization error:", e);
+    }
+  }
+
+  // Step 2: Fal.ai Image Compositing
+  console.log("Rendering composite via Fal.ai flux-subject...");
+  try {
+    const requestBody: Record<string, unknown> = {
+      prompt: optimalPrompt,
+      output_format: "jpeg",
+      aspect_ratio: toAspectRatio(width, height),
+      sync_mode: true,
     };
 
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
-      }
-    );
+    let endpoint = "https://fal.run/fal-ai/nano-banana-pro";
+
+    if (opts.productImageUrl) {
+      // Use flux-subject to properly composite the product into the scene
+      endpoint = "https://fal.run/fal-ai/flux-subject";
+      requestBody.image_url = opts.productImageUrl;
+    } else {
+      requestBody.num_images = 1;
+    }
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Key ${falKey}`,
+      },
+      body: JSON.stringify(requestBody),
+    });
 
     if (!res.ok) {
       const errorText = await res.text();
-      console.error("Gemini API error:", res.status, errorText);
+      console.error(`fal.ai error (${endpoint}):`, res.status, errorText);
       return null;
     }
 
     const data = await res.json();
-
-    // Extract image from response
-    const parts = data?.candidates?.[0]?.content?.parts;
-    if (parts) {
-      for (const part of parts) {
-        if (part.inlineData?.data) {
-          const mimeType = part.inlineData.mimeType || "image/png";
-          return `data:${mimeType};base64,${part.inlineData.data}`;
-        }
-      }
+    const imageUrl = data?.images?.[0]?.url || data?.image?.url;
+    if (typeof imageUrl === "string" && imageUrl.length > 0) {
+      return imageUrl;
     }
 
+    console.error("fal.ai response missing image url:", JSON.stringify(data).slice(0, 500));
     return null;
   } catch (error) {
     console.error("Lifestyle image generation error:", error);

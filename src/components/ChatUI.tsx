@@ -1,27 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import BannerRenderer from "./BannerRenderer";
-
-interface TextStyle {
-  fontSize: number;
-  fontWeight: number;
-  lineHeight: number;
-}
-
-interface BannerConfig {
-  name: string;
-  width: number;
-  height: number;
-  layout: string;
-  headline: TextStyle;
-  subcopy?: TextStyle;
-  cta?: TextStyle;
-  headlineText: string;
-  subcopText?: string;
-  ctaText?: string;
-  productImageUrl?: string;
-}
+import BannerRenderer, { type BannerConfig } from "./BannerRenderer";
 
 interface PreviewImage {
   url: string;
@@ -116,6 +96,17 @@ export default function ChatUI() {
         setPendingBanners(data.banners);
         setPendingMessage(data.message);
         setPendingMessages(newMessages);
+        
+        // Push the confirmed content to Figma via the new API wrapper.
+        // It runs asynchronously. The Relay Server handles the rest.
+        if (data.figmaPayload) {
+          fetch("/api/figma-update", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data.figmaPayload),
+          }).catch((err) => console.error("Figma auto-update failed:", err));
+        }
+
         return;
       }
 

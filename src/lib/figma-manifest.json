@@ -1,0 +1,2388 @@
+{
+  "channels": {
+    "DV360": [
+      {
+        "frameId": "1:21",
+        "name": "DV360_970x250",
+        "width": 970,
+        "height": 250,
+        "backgroundSlot": {
+          "id": "1:22",
+          "x": 0,
+          "y": 0,
+          "w": 970,
+          "h": 250
+        },
+        "productSlot": {
+          "id": "1:24",
+          "x": 613,
+          "y": 0,
+          "w": 357,
+          "h": 250,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 970,
+          "h": 250,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:29",
+          "x": 855,
+          "y": 0,
+          "w": 115,
+          "h": 62,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:26",
+          "x": 33,
+          "y": 24,
+          "w": 643,
+          "h": 80,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 40,
+          "lineHeight": 40,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "subcopy": {
+          "id": "1:25",
+          "x": 34,
+          "y": 112,
+          "w": 579,
+          "h": 23,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 400,
+          "fontSize": 20,
+          "lineHeight": 23.399999618530273,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "ctaButton": {
+          "id": "1:27",
+          "x": 36,
+          "y": 168,
+          "w": 154,
+          "h": 55,
+          "cornerRadius": 27.5,
+          "fill": "rgba(239,41,45,1)"
+        },
+        "ctaText": {
+          "id": "1:28",
+          "x": 58,
+          "y": 184,
+          "w": 109,
+          "h": 23,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 20,
+          "lineHeight": 23.399999618530273,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_970x250"
+      },
+      {
+        "frameId": "1:30",
+        "name": "DV360_970x90",
+        "width": 970,
+        "height": 90,
+        "backgroundSlot": {
+          "id": "1:31",
+          "x": 0,
+          "y": 0,
+          "w": 970,
+          "h": 90
+        },
+        "productSlot": {
+          "id": "1:33",
+          "x": 659,
+          "y": 0,
+          "w": 195,
+          "h": 90,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 970,
+          "h": 90,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:34",
+          "x": 855,
+          "y": 14,
+          "w": 115,
+          "h": 62,
+          "variant": "grey"
+        },
+        "headline": {
+          "id": "1:35",
+          "x": 33,
+          "y": 25,
+          "w": 621,
+          "h": 40,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 25,
+          "lineHeight": 40,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_970x90"
+      },
+      {
+        "frameId": "1:36",
+        "name": "DV360_800x250",
+        "width": 800,
+        "height": 250,
+        "backgroundSlot": {
+          "id": "1:37",
+          "x": 0,
+          "y": 0,
+          "w": 800,
+          "h": 250
+        },
+        "productSlot": {
+          "id": "1:39",
+          "x": 415,
+          "y": 0,
+          "w": 385,
+          "h": 250,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 800,
+          "h": 250,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:40",
+          "x": 685,
+          "y": 0,
+          "w": 115,
+          "h": 62,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:41",
+          "x": 33,
+          "y": 24,
+          "w": 413,
+          "h": 120,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 40,
+          "lineHeight": 40,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "ctaButton": {
+          "id": "1:42",
+          "x": 36,
+          "y": 168,
+          "w": 154,
+          "h": 55,
+          "cornerRadius": 27.5,
+          "fill": "rgba(239,41,45,1)"
+        },
+        "ctaText": {
+          "id": "1:43",
+          "x": 58,
+          "y": 184,
+          "w": 109,
+          "h": 23,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 20,
+          "lineHeight": 23.399999618530273,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_800x250"
+      },
+      {
+        "frameId": "1:44",
+        "name": "DV360_728x90",
+        "width": 728,
+        "height": 90,
+        "backgroundSlot": {
+          "id": "1:45",
+          "x": 0,
+          "y": 0,
+          "w": 728,
+          "h": 90
+        },
+        "productSlot": {
+          "id": "1:47",
+          "x": 448,
+          "y": 0,
+          "w": 205,
+          "h": 90,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 728,
+          "h": 90,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:48",
+          "x": 613,
+          "y": 14,
+          "w": 115,
+          "h": 62,
+          "variant": "grey"
+        },
+        "headline": {
+          "id": "1:49",
+          "x": 32,
+          "y": 15,
+          "w": 429,
+          "h": 60,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 23,
+          "lineHeight": 30,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_728x90"
+      },
+      {
+        "frameId": "1:50",
+        "name": "DV360_468x60",
+        "width": 468,
+        "height": 60,
+        "backgroundSlot": {
+          "id": "1:51",
+          "x": 0,
+          "y": 0,
+          "w": 468,
+          "h": 60
+        },
+        "productSlot": {
+          "id": "1:53",
+          "x": 290,
+          "y": 0,
+          "w": 129,
+          "h": 60,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 468,
+          "h": 60,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:54",
+          "x": 404,
+          "y": 13,
+          "w": 64,
+          "h": 34,
+          "variant": "grey"
+        },
+        "headline": {
+          "id": "1:55",
+          "x": 16,
+          "y": 10,
+          "w": 307,
+          "h": 40,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 17,
+          "lineHeight": 20,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_468x60"
+      },
+      {
+        "frameId": "1:56",
+        "name": "DV360_375x667",
+        "width": 375,
+        "height": 667,
+        "backgroundSlot": {
+          "id": "1:57",
+          "x": 0,
+          "y": 0,
+          "w": 375,
+          "h": 667
+        },
+        "productSlot": {
+          "id": "1:59",
+          "x": 0,
+          "y": 231,
+          "w": 375,
+          "h": 436,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 375,
+          "h": 667,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:60",
+          "x": 260,
+          "y": 0,
+          "w": 115,
+          "h": 62,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:61",
+          "x": 26,
+          "y": 62,
+          "w": 323,
+          "h": 120,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 30,
+          "lineHeight": 40,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_375x667"
+      },
+      {
+        "frameId": "1:186",
+        "name": "DV360_360x640",
+        "width": 360,
+        "height": 640,
+        "backgroundSlot": {
+          "id": "1:187",
+          "x": 0,
+          "y": 0,
+          "w": 360,
+          "h": 640
+        },
+        "productSlot": {
+          "id": "1:190",
+          "x": 0,
+          "y": 224,
+          "w": 360,
+          "h": 416,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 360,
+          "h": 640,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:189",
+          "x": 262,
+          "y": 0,
+          "w": 98,
+          "h": 53,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:191",
+          "x": 23,
+          "y": 53,
+          "w": 311,
+          "h": 120,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 30,
+          "lineHeight": 40,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_360x640"
+      },
+      {
+        "frameId": "1:192",
+        "name": "DV360_360x640",
+        "width": 360,
+        "height": 640,
+        "backgroundSlot": {
+          "id": "1:193",
+          "x": 0,
+          "y": 0,
+          "w": 360,
+          "h": 640
+        },
+        "productSlot": {
+          "id": "1:196",
+          "x": 0,
+          "y": 224,
+          "w": 360,
+          "h": 416,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 360,
+          "h": 640,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:195",
+          "x": 262,
+          "y": 0,
+          "w": 98,
+          "h": 53,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:197",
+          "x": 35,
+          "y": 53,
+          "w": 311,
+          "h": 120,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_360x640_v2"
+      },
+      {
+        "frameId": "1:62",
+        "name": "DV360_360x592",
+        "width": 360,
+        "height": 592,
+        "backgroundSlot": {
+          "id": "1:63",
+          "x": 0,
+          "y": 0,
+          "w": 360,
+          "h": 592
+        },
+        "productSlot": {
+          "id": "1:66",
+          "x": 0,
+          "y": 250,
+          "w": 360,
+          "h": 342,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 360,
+          "h": 592,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:65",
+          "x": 256,
+          "y": 0,
+          "w": 104,
+          "h": 56,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:67",
+          "x": 23,
+          "y": 62,
+          "w": 304,
+          "h": 120,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 30,
+          "lineHeight": 40,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_360x592"
+      },
+      {
+        "frameId": "1:68",
+        "name": "DV360_360x592",
+        "width": 360,
+        "height": 592,
+        "backgroundSlot": {
+          "id": "1:69",
+          "x": 0,
+          "y": 0,
+          "w": 360,
+          "h": 592
+        },
+        "productSlot": {
+          "id": "1:72",
+          "x": 0,
+          "y": 250,
+          "w": 360,
+          "h": 342,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 360,
+          "h": 592,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:71",
+          "x": 256,
+          "y": 0,
+          "w": 104,
+          "h": 56,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:73",
+          "x": 23,
+          "y": 62,
+          "w": 304,
+          "h": 120,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 30,
+          "lineHeight": 40,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_360x592_v2"
+      },
+      {
+        "frameId": "1:74",
+        "name": "DV360_336x280",
+        "width": 336,
+        "height": 280,
+        "backgroundSlot": {
+          "id": "1:75",
+          "x": 0,
+          "y": 0,
+          "w": 336,
+          "h": 280
+        },
+        "productSlot": {
+          "id": "1:78",
+          "x": 134,
+          "y": 97,
+          "w": 202,
+          "h": 170,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 336,
+          "h": 280,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:77",
+          "x": 253,
+          "y": 0,
+          "w": 83,
+          "h": 45,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:79",
+          "x": 23,
+          "y": 24,
+          "w": 242,
+          "h": 105,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 27,
+          "lineHeight": 35,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_336x280"
+      },
+      {
+        "frameId": "1:80",
+        "name": "DV360_336x280",
+        "width": 336,
+        "height": 280,
+        "backgroundSlot": {
+          "id": "1:81",
+          "x": 0,
+          "y": 0,
+          "w": 336,
+          "h": 280
+        },
+        "productSlot": {
+          "id": "1:84",
+          "x": 134,
+          "y": 97,
+          "w": 202,
+          "h": 170,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 336,
+          "h": 280,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:83",
+          "x": 253,
+          "y": 0,
+          "w": 83,
+          "h": 45,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:85",
+          "x": 23,
+          "y": 24,
+          "w": 242,
+          "h": 105,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 27,
+          "lineHeight": 35,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_336x280_v2"
+      },
+      {
+        "frameId": "1:86",
+        "name": "DV360_320x480",
+        "width": 320,
+        "height": 480,
+        "backgroundSlot": {
+          "id": "1:87",
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 480
+        },
+        "productSlot": {
+          "id": "1:90",
+          "x": 0,
+          "y": 203,
+          "w": 320,
+          "h": 277,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 480,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:89",
+          "x": 233,
+          "y": 0,
+          "w": 87,
+          "h": 47,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:91",
+          "x": 23,
+          "y": 58,
+          "w": 277,
+          "h": 90,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 25,
+          "lineHeight": 30,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_320x480"
+      },
+      {
+        "frameId": "1:92",
+        "name": "DV360_320x480",
+        "width": 320,
+        "height": 480,
+        "backgroundSlot": {
+          "id": "1:93",
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 480
+        },
+        "productSlot": {
+          "id": "1:96",
+          "x": 0,
+          "y": 203,
+          "w": 320,
+          "h": 277,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 480,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:95",
+          "x": 233,
+          "y": 0,
+          "w": 87,
+          "h": 47,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:97",
+          "x": 23,
+          "y": 58,
+          "w": 277,
+          "h": 90,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 25,
+          "lineHeight": 30,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_320x480_v2"
+      },
+      {
+        "frameId": "1:98",
+        "name": "DV360_320x320",
+        "width": 320,
+        "height": 320,
+        "backgroundSlot": {
+          "id": "1:99",
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 320
+        },
+        "productSlot": {
+          "id": "1:102",
+          "x": 0,
+          "y": 125,
+          "w": 320,
+          "h": 195,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:101",
+          "x": 248,
+          "y": 0,
+          "w": 72,
+          "h": 39,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:103",
+          "x": 23,
+          "y": 35,
+          "w": 269,
+          "h": 90,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 25,
+          "lineHeight": 30,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_320x320"
+      },
+      {
+        "frameId": "1:104",
+        "name": "DV360_320x320",
+        "width": 320,
+        "height": 320,
+        "backgroundSlot": {
+          "id": "1:105",
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 320
+        },
+        "productSlot": {
+          "id": "1:108",
+          "x": 0,
+          "y": 125,
+          "w": 320,
+          "h": 195,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 320,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:107",
+          "x": 248,
+          "y": 0,
+          "w": 72,
+          "h": 39,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:109",
+          "x": 23,
+          "y": 35,
+          "w": 269,
+          "h": 90,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 25,
+          "lineHeight": 30,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_320x320_v2"
+      },
+      {
+        "frameId": "1:110",
+        "name": "DV360_320x100",
+        "width": 320,
+        "height": 100,
+        "backgroundSlot": {
+          "id": "1:111",
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 100
+        },
+        "productSlot": {
+          "id": "1:113",
+          "x": 167,
+          "y": 0,
+          "w": 153,
+          "h": 100,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 100,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:115",
+          "x": 272,
+          "y": 0,
+          "w": 48,
+          "h": 26,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:114",
+          "x": 14,
+          "y": 20,
+          "w": 153,
+          "h": 60,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 18,
+          "lineHeight": 20,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_320x100"
+      },
+      {
+        "frameId": "1:116",
+        "name": "DV360_320x100",
+        "width": 320,
+        "height": 100,
+        "backgroundSlot": {
+          "id": "1:117",
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 100
+        },
+        "productSlot": {
+          "id": "1:119",
+          "x": 167,
+          "y": 0,
+          "w": 153,
+          "h": 100,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 100,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:121",
+          "x": 272,
+          "y": 0,
+          "w": 48,
+          "h": 26,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:120",
+          "x": 14,
+          "y": 20,
+          "w": 153,
+          "h": 60,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 18,
+          "lineHeight": 20,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_320x100_v2"
+      },
+      {
+        "frameId": "1:122",
+        "name": "DV360_320x50",
+        "width": 320,
+        "height": 50,
+        "backgroundSlot": {
+          "id": "1:123",
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 50
+        },
+        "productSlot": {
+          "id": "1:125",
+          "x": 187,
+          "y": 0,
+          "w": 109,
+          "h": 50,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 50,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:127",
+          "x": 264,
+          "y": 10,
+          "w": 56,
+          "h": 30,
+          "variant": "grey"
+        },
+        "headline": {
+          "id": "1:126",
+          "x": 16,
+          "y": 10,
+          "w": 183,
+          "h": 30,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 13,
+          "lineHeight": 15,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_320x50"
+      },
+      {
+        "frameId": "1:128",
+        "name": "DV360_320x50",
+        "width": 320,
+        "height": 50,
+        "backgroundSlot": {
+          "id": "1:129",
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 50
+        },
+        "productSlot": {
+          "id": "1:131",
+          "x": 187,
+          "y": 0,
+          "w": 109,
+          "h": 50,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 50,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:133",
+          "x": 264,
+          "y": 10,
+          "w": 56,
+          "h": 30,
+          "variant": "grey"
+        },
+        "headline": {
+          "id": "1:132",
+          "x": 16,
+          "y": 10,
+          "w": 183,
+          "h": 30,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 13,
+          "lineHeight": 15,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_320x50_v2"
+      },
+      {
+        "frameId": "1:134",
+        "name": "DV360_300x1050",
+        "width": 300,
+        "height": 1050,
+        "backgroundSlot": {
+          "id": "1:135",
+          "x": 0,
+          "y": 0,
+          "w": 300,
+          "h": 1050
+        },
+        "productSlot": {
+          "id": "1:138",
+          "x": 0,
+          "y": 439,
+          "w": 300,
+          "h": 611,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 300,
+          "h": 1050,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:137",
+          "x": 185,
+          "y": 0,
+          "w": 115,
+          "h": 62,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:139",
+          "x": 26,
+          "y": 58,
+          "w": 246,
+          "h": 160,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 32,
+          "lineHeight": 40,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "subcopy": {
+          "id": "1:140",
+          "x": 26,
+          "y": 231,
+          "w": 246,
+          "h": 86,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 400,
+          "fontSize": 22,
+          "lineHeight": 28,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "ctaButton": {
+          "id": "1:141",
+          "x": 26,
+          "y": 365,
+          "w": 154,
+          "h": 55,
+          "cornerRadius": 27.5,
+          "fill": "rgba(239,41,45,1)"
+        },
+        "ctaText": {
+          "id": "1:142",
+          "x": 48,
+          "y": 381,
+          "w": 109,
+          "h": 23,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 20,
+          "lineHeight": 23.399999618530273,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_300x1050"
+      },
+      {
+        "frameId": "1:143",
+        "name": "DV360_300x600",
+        "width": 300,
+        "height": 600,
+        "backgroundSlot": {
+          "id": "1:144",
+          "x": 0,
+          "y": 0,
+          "w": 300,
+          "h": 600
+        },
+        "productSlot": {
+          "id": "1:147",
+          "x": 0,
+          "y": 231,
+          "w": 300,
+          "h": 369,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 300,
+          "h": 600,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:146",
+          "x": 185,
+          "y": 0,
+          "w": 115,
+          "h": 62,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:148",
+          "x": 26,
+          "y": 58,
+          "w": 246,
+          "h": 160,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 32,
+          "lineHeight": 40,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_300x600"
+      },
+      {
+        "frameId": "1:149",
+        "name": "DV360_300x250",
+        "width": 300,
+        "height": 250,
+        "backgroundSlot": {
+          "id": "1:150",
+          "x": 0,
+          "y": 0,
+          "w": 300,
+          "h": 250
+        },
+        "productSlot": {
+          "id": "1:152",
+          "x": 83,
+          "y": 100,
+          "w": 217,
+          "h": 138,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 300,
+          "h": 250,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:153",
+          "x": 230,
+          "y": 0,
+          "w": 70,
+          "h": 38,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:154",
+          "x": 23,
+          "y": 38,
+          "w": 242,
+          "h": 66,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 20,
+          "lineHeight": 22,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_300x250"
+      },
+      {
+        "frameId": "1:155",
+        "name": "DV360_300x100",
+        "width": 300,
+        "height": 100,
+        "backgroundSlot": {
+          "id": "1:156",
+          "x": 0,
+          "y": 0,
+          "w": 300,
+          "h": 100
+        },
+        "productSlot": {
+          "id": "1:158",
+          "x": 150,
+          "y": 0,
+          "w": 150,
+          "h": 100,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 300,
+          "h": 100,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:159",
+          "x": 252,
+          "y": 0,
+          "w": 48,
+          "h": 26,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:160",
+          "x": 16,
+          "y": 20,
+          "w": 138,
+          "h": 60,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 15,
+          "lineHeight": 20,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_300x100"
+      },
+      {
+        "frameId": "1:161",
+        "name": "DV360_300x50",
+        "width": 300,
+        "height": 50,
+        "backgroundSlot": {
+          "id": "1:162",
+          "x": 0,
+          "y": 0,
+          "w": 300,
+          "h": 50
+        },
+        "productSlot": {
+          "id": "1:164",
+          "x": 182,
+          "y": 0,
+          "w": 110,
+          "h": 50,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 300,
+          "h": 50,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:167",
+          "x": 268,
+          "y": 17,
+          "w": 32,
+          "h": 17,
+          "variant": "grey"
+        },
+        "headline": {
+          "id": "1:166",
+          "x": 16,
+          "y": 10,
+          "w": 189,
+          "h": 30,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 13,
+          "lineHeight": 15,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_300x50"
+      },
+      {
+        "frameId": "1:168",
+        "name": "DV360_250x250",
+        "width": 250,
+        "height": 250,
+        "backgroundSlot": {
+          "id": "1:169",
+          "x": 0,
+          "y": 0,
+          "w": 250,
+          "h": 250
+        },
+        "productSlot": {
+          "id": "1:172",
+          "x": 0,
+          "y": 89,
+          "w": 250,
+          "h": 161,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 250,
+          "h": 250,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:171",
+          "x": 185,
+          "y": 0,
+          "w": 65,
+          "h": 35,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:173",
+          "x": 23,
+          "y": 29,
+          "w": 210,
+          "h": 40,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 15,
+          "lineHeight": 20,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_250x250"
+      },
+      {
+        "frameId": "1:174",
+        "name": "DV360_160x600",
+        "width": 160,
+        "height": 600,
+        "backgroundSlot": {
+          "id": "1:175",
+          "x": 0,
+          "y": 0,
+          "w": 160,
+          "h": 600
+        },
+        "productSlot": {
+          "id": "1:177",
+          "x": 0,
+          "y": 276,
+          "w": 160,
+          "h": 324,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 160,
+          "h": 600,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:178",
+          "x": 71,
+          "y": 0,
+          "w": 89,
+          "h": 48,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:179",
+          "x": 18,
+          "y": 57,
+          "w": 123,
+          "h": 162,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 23,
+          "lineHeight": 27,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_160x600"
+      },
+      {
+        "frameId": "1:180",
+        "name": "DV360_120x600",
+        "width": 120,
+        "height": 600,
+        "backgroundSlot": {
+          "id": "1:181",
+          "x": 0,
+          "y": 0,
+          "w": 120,
+          "h": 600
+        },
+        "productSlot": {
+          "id": "1:184",
+          "x": 0,
+          "y": 338,
+          "w": 120,
+          "h": 262,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 120,
+          "h": 600,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:183",
+          "x": 27,
+          "y": 0,
+          "w": 93,
+          "h": 50,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:185",
+          "x": 13,
+          "y": 57,
+          "w": 95,
+          "h": 175,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 20,
+          "lineHeight": 25,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "DV360_120x600"
+      }
+    ],
+    "Social": [
+      {
+        "frameId": "1:199",
+        "name": "Social_1200x1200",
+        "width": 1200,
+        "height": 1200,
+        "backgroundSlot": {
+          "id": "1:200",
+          "x": 0,
+          "y": 0,
+          "w": 1200,
+          "h": 1200
+        },
+        "productSlot": {
+          "id": "1:203",
+          "x": 102,
+          "y": 471,
+          "w": 1098,
+          "h": 678,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 1200,
+          "h": 1200,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:202",
+          "x": 944,
+          "y": 0,
+          "w": 256,
+          "h": 138,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:205",
+          "x": 78,
+          "y": 113,
+          "w": 1043,
+          "h": 201,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 70,
+          "lineHeight": 67,
+          "letterSpacing": 0,
+          "align": "center",
+          "color": "rgba(255,255,255,1)"
+        },
+        "subcopy": {
+          "id": "1:204",
+          "x": 102,
+          "y": 343,
+          "w": 947,
+          "h": 94,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 400,
+          "fontSize": 40,
+          "lineHeight": 46.79999923706055,
+          "letterSpacing": 0,
+          "align": "center",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Social_1200x1200"
+      },
+      {
+        "frameId": "1:206",
+        "name": "Social_1080x1920",
+        "width": 1080,
+        "height": 1920,
+        "backgroundSlot": {
+          "id": "1:209",
+          "x": 0,
+          "y": 0,
+          "w": 1080,
+          "h": 1920
+        },
+        "productSlot": {
+          "id": "1:207",
+          "x": 0,
+          "y": 0,
+          "w": 649,
+          "h": 1513,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 1080,
+          "h": 1920,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:210",
+          "x": 737,
+          "y": 0,
+          "w": 343,
+          "h": 185,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:212",
+          "x": 61,
+          "y": 192,
+          "w": 955,
+          "h": 240,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 80,
+          "lineHeight": 80,
+          "letterSpacing": 0,
+          "align": "center",
+          "color": "rgba(255,255,255,1)"
+        },
+        "subcopy": {
+          "id": "1:211",
+          "x": 83,
+          "y": 477,
+          "w": 867,
+          "h": 94,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 400,
+          "fontSize": 40,
+          "lineHeight": 46.79999923706055,
+          "letterSpacing": 0,
+          "align": "center",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Social_1080x1920"
+      }
+    ],
+    "Criteo": [
+      {
+        "frameId": "1:11",
+        "name": "Criteo_970x250",
+        "width": 970,
+        "height": 250,
+        "backgroundSlot": {
+          "id": "1:12",
+          "x": 0,
+          "y": 0,
+          "w": 970,
+          "h": 250
+        },
+        "productSlot": {
+          "id": "1:14",
+          "x": 565,
+          "y": 0,
+          "w": 405,
+          "h": 250,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 970,
+          "h": 250,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:15",
+          "x": 831,
+          "y": 0,
+          "w": 139,
+          "h": 75,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:17",
+          "x": 33,
+          "y": 23,
+          "w": 647,
+          "h": 80,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 40,
+          "lineHeight": 40,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "subcopy": {
+          "id": "1:18",
+          "x": 33,
+          "y": 108,
+          "w": 559,
+          "h": 52,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 400,
+          "fontSize": 22,
+          "lineHeight": 25.739999771118164,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "ctaButton": {
+          "id": "1:19",
+          "x": 36,
+          "y": 174,
+          "w": 154,
+          "h": 55,
+          "cornerRadius": 27.5,
+          "fill": "rgba(239,41,45,1)"
+        },
+        "ctaText": {
+          "id": "1:20",
+          "x": 58,
+          "y": 190,
+          "w": 109,
+          "h": 23,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 20,
+          "lineHeight": 23.399999618530273,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Criteo_970x250"
+      },
+      {
+        "frameId": "1:213",
+        "name": "Criteo_970x90",
+        "width": 970,
+        "height": 90,
+        "backgroundSlot": {
+          "id": "1:214",
+          "x": 0,
+          "y": 0,
+          "w": 970,
+          "h": 90
+        },
+        "productSlot": {
+          "id": "1:216",
+          "x": 652,
+          "y": 0,
+          "w": 208,
+          "h": 90,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 970,
+          "h": 90,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:217",
+          "x": 855,
+          "y": 14,
+          "w": 115,
+          "h": 62,
+          "variant": "grey"
+        },
+        "headline": {
+          "id": "1:218",
+          "x": 24,
+          "y": 14,
+          "w": 593,
+          "h": 60,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 30,
+          "lineHeight": 30,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Criteo_970x90"
+      },
+      {
+        "frameId": "1:219",
+        "name": "Criteo_728x90",
+        "width": 728,
+        "height": 90,
+        "backgroundSlot": {
+          "id": "1:220",
+          "x": 0,
+          "y": 0,
+          "w": 728,
+          "h": 90
+        },
+        "productSlot": {
+          "id": "1:222",
+          "x": 497,
+          "y": 0,
+          "w": 191,
+          "h": 90,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 728,
+          "h": 90,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:223",
+          "x": 648,
+          "y": 24,
+          "w": 80,
+          "h": 43,
+          "variant": "grey"
+        },
+        "headline": {
+          "id": "1:224",
+          "x": 26,
+          "y": 15,
+          "w": 482,
+          "h": 60,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 25,
+          "lineHeight": 30,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Criteo_728x90"
+      },
+      {
+        "frameId": "1:225",
+        "name": "Criteo_480x320",
+        "width": 480,
+        "height": 320,
+        "backgroundSlot": {
+          "id": "1:226",
+          "x": 0,
+          "y": 0,
+          "w": 480,
+          "h": 320
+        },
+        "productSlot": {
+          "id": "1:228",
+          "x": 185,
+          "y": 0,
+          "w": 295,
+          "h": 320,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 480,
+          "h": 320,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:229",
+          "x": 365,
+          "y": 0,
+          "w": 115,
+          "h": 62,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:231",
+          "x": 23,
+          "y": 24,
+          "w": 274,
+          "h": 105,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 30,
+          "lineHeight": 35,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "subcopy": {
+          "id": "1:230",
+          "x": 24,
+          "y": 142,
+          "w": 213,
+          "h": 60,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 400,
+          "fontSize": 17,
+          "lineHeight": 19.889999389648438,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "ctaButton": {
+          "id": "1:232",
+          "x": 24,
+          "y": 241,
+          "w": 121,
+          "h": 34,
+          "cornerRadius": 27.5,
+          "fill": "rgba(239,41,45,1)"
+        },
+        "ctaText": {
+          "id": "1:233",
+          "x": 42,
+          "y": 248,
+          "w": 131,
+          "h": 14,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 15,
+          "lineHeight": 17.549999237060547,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Criteo_480x320"
+      },
+      {
+        "frameId": "1:234",
+        "name": "Criteo_468x60",
+        "width": 468,
+        "height": 60,
+        "backgroundSlot": {
+          "id": "1:235",
+          "x": 0,
+          "y": 0,
+          "w": 468,
+          "h": 60
+        },
+        "productSlot": {
+          "id": "1:237",
+          "x": 293,
+          "y": 0,
+          "w": 127,
+          "h": 60,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 468,
+          "h": 60,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:238",
+          "x": 393,
+          "y": 11,
+          "w": 75,
+          "h": 40,
+          "variant": "grey"
+        },
+        "headline": {
+          "id": "1:239",
+          "x": 26,
+          "y": 11,
+          "w": 237,
+          "h": 34,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 15,
+          "lineHeight": 17,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Criteo_468x60"
+      },
+      {
+        "frameId": "1:240",
+        "name": "Criteo_336x280",
+        "width": 336,
+        "height": 280,
+        "backgroundSlot": {
+          "id": "1:241",
+          "x": 0,
+          "y": 0,
+          "w": 336,
+          "h": 280
+        },
+        "productSlot": {
+          "id": "1:244",
+          "x": 134,
+          "y": 97,
+          "w": 202,
+          "h": 170,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 336,
+          "h": 280,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:243",
+          "x": 253,
+          "y": 0,
+          "w": 83,
+          "h": 45,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:245",
+          "x": 23,
+          "y": 24,
+          "w": 242,
+          "h": 105,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 27,
+          "lineHeight": 35,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "ctaButton": {
+          "id": "1:246",
+          "x": 24,
+          "y": 212,
+          "w": 121,
+          "h": 34,
+          "cornerRadius": 27.5,
+          "fill": "rgba(239,41,45,1)"
+        },
+        "ctaText": {
+          "id": "1:247",
+          "x": 42,
+          "y": 219,
+          "w": 131,
+          "h": 14,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 15,
+          "lineHeight": 17.549999237060547,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Criteo_336x280"
+      },
+      {
+        "frameId": "1:253",
+        "name": "Criteo_320x480",
+        "width": 320,
+        "height": 480,
+        "backgroundSlot": {
+          "id": "1:254",
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 480
+        },
+        "productSlot": {
+          "id": "1:257",
+          "x": 0,
+          "y": 196,
+          "w": 320,
+          "h": 284,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 480,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:256",
+          "x": 224,
+          "y": 0,
+          "w": 96,
+          "h": 52,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:258",
+          "x": 23,
+          "y": 52,
+          "w": 270,
+          "h": 120,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 30,
+          "lineHeight": 40,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Criteo_320x480"
+      },
+      {
+        "frameId": "1:259",
+        "name": "Criteo_320x100",
+        "width": 320,
+        "height": 100,
+        "backgroundSlot": {
+          "id": "1:260",
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 100
+        },
+        "productSlot": {
+          "id": "1:262",
+          "x": 160,
+          "y": 0,
+          "w": 160,
+          "h": 100,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 100,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:263",
+          "x": 259,
+          "y": 0,
+          "w": 61,
+          "h": 33,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:264",
+          "x": 18,
+          "y": 13,
+          "w": 149,
+          "h": 60,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 15,
+          "lineHeight": 20,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Criteo_320x100"
+      },
+      {
+        "frameId": "1:265",
+        "name": "Criteo_320x50",
+        "width": 320,
+        "height": 50,
+        "backgroundSlot": {
+          "id": "1:266",
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 50
+        },
+        "productSlot": {
+          "id": "1:268",
+          "x": 179,
+          "y": 0,
+          "w": 110,
+          "h": 50,
+          "shape": "horizontal"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 50,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:269",
+          "x": 257,
+          "y": 8,
+          "w": 63,
+          "h": 34,
+          "variant": "grey"
+        },
+        "headline": {
+          "id": "1:270",
+          "x": 12,
+          "y": 9,
+          "w": 167,
+          "h": 26,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 12,
+          "lineHeight": 13,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Criteo_320x50"
+      },
+      {
+        "frameId": "1:271",
+        "name": "Criteo_300x600",
+        "width": 300,
+        "height": 600,
+        "backgroundSlot": {
+          "id": "1:272",
+          "x": 0,
+          "y": 0,
+          "w": 300,
+          "h": 600
+        },
+        "productSlot": {
+          "id": "1:275",
+          "x": 0,
+          "y": 224,
+          "w": 300,
+          "h": 376,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 300,
+          "h": 600,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:274",
+          "x": 185,
+          "y": 0,
+          "w": 115,
+          "h": 62,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:276",
+          "x": 23,
+          "y": 52,
+          "w": 244,
+          "h": 160,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 30,
+          "lineHeight": 40,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Criteo_300x600"
+      },
+      {
+        "frameId": "1:277",
+        "name": "Criteo_120x600",
+        "width": 120,
+        "height": 600,
+        "backgroundSlot": {
+          "id": "1:278",
+          "x": 0,
+          "y": 0,
+          "w": 120,
+          "h": 600
+        },
+        "productSlot": {
+          "id": "1:281",
+          "x": 0,
+          "y": 339,
+          "w": 120,
+          "h": 261,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 120,
+          "h": 600,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": {
+          "id": "1:280",
+          "x": 42,
+          "y": 0,
+          "w": 78,
+          "h": 42,
+          "variant": "white"
+        },
+        "headline": {
+          "id": "1:282",
+          "x": 13,
+          "y": 52,
+          "w": 95,
+          "h": 175,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 20,
+          "lineHeight": 25,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "ctaButton": {
+          "id": "1:283",
+          "x": 18,
+          "y": 300,
+          "w": 84,
+          "h": 24,
+          "cornerRadius": 27.5,
+          "fill": "rgba(239,41,45,1)"
+        },
+        "ctaText": {
+          "id": "1:284",
+          "x": 32,
+          "y": 304,
+          "w": 131,
+          "h": 14,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 10,
+          "lineHeight": 11.699999809265137,
+          "letterSpacing": 0,
+          "align": "left",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Criteo_120x600"
+      }
+    ],
+    "Email": [
+      {
+        "frameId": "1:248",
+        "name": "Email_650x800",
+        "width": 650,
+        "height": 800,
+        "backgroundSlot": {
+          "id": "1:249",
+          "x": 0,
+          "y": 0,
+          "w": 650,
+          "h": 800
+        },
+        "productSlot": {
+          "id": "1:251",
+          "x": 0,
+          "y": 231,
+          "w": 650,
+          "h": 569,
+          "shape": "vertical"
+        },
+        "dimLayer": {
+          "x": 0,
+          "y": 0,
+          "w": 650,
+          "h": 800,
+          "fill": "rgba(0,0,0,0.4000000059604645)"
+        },
+        "logo": null,
+        "headline": {
+          "id": "1:252",
+          "x": 50,
+          "y": 51,
+          "w": 551,
+          "h": 150,
+          "fontFamily": "LG EI Text",
+          "fontWeight": 600,
+          "fontSize": 43,
+          "lineHeight": 50,
+          "letterSpacing": 0,
+          "align": "center",
+          "color": "rgba(255,255,255,1)"
+        },
+        "expectedName": "Email_650x800"
+      }
+    ]
+  }
+}

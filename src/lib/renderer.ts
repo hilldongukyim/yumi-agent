@@ -1,9 +1,10 @@
 /**
- * Server-side: returns banner config data for client-side rendering.
- * Includes exact Figma font sizes per frame.
+ * Server-side: returns Figma-faithful banner specs for client-side rendering.
+ * Each spec carries the full FrameSpec from figma-manifest.json plus the user
+ * content (headline / subcopy / CTA / images).
  */
 
-import { getSelectedFrames } from "./config";
+import { getSelectedFrames, type FrameSpec } from "./figma-manifest";
 
 interface RenderRequest {
   channel: string;
@@ -12,20 +13,16 @@ interface RenderRequest {
   subcopy?: string;
   ctaText?: string;
   productImageUrl?: string;
+  lifestyleImageUrl?: string;
 }
 
 export interface BannerConfig {
-  name: string;
-  width: number;
-  height: number;
-  layout: string;
-  headline: { fontSize: number; fontWeight: number; lineHeight: number };
-  subcopy?: { fontSize: number; fontWeight: number; lineHeight: number };
-  cta?: { fontSize: number; fontWeight: number; lineHeight: number };
+  spec: FrameSpec;
   headlineText: string;
-  subcopText?: string;
+  subcopyText?: string;
   ctaText?: string;
   productImageUrl?: string;
+  lifestyleImageUrl?: string;
 }
 
 export function prepareBanners(req: RenderRequest): BannerConfig[] {
@@ -36,17 +33,12 @@ export function prepareBanners(req: RenderRequest): BannerConfig[] {
     );
   }
 
-  return frames.map((frame) => ({
-    name: frame.name,
-    width: frame.width,
-    height: frame.height,
-    layout: frame.layout,
-    headline: frame.headline,
-    subcopy: frame.subcopy,
-    cta: frame.cta,
+  return frames.map((spec) => ({
+    spec,
     headlineText: req.headline,
-    subcopText: req.subcopy,
+    subcopyText: req.subcopy,
     ctaText: req.ctaText,
     productImageUrl: req.productImageUrl,
+    lifestyleImageUrl: req.lifestyleImageUrl,
   }));
 }
