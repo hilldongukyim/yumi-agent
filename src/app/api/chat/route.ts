@@ -270,10 +270,10 @@ export async function POST(request: Request) {
               const resData = JSON.parse(result.content);
               figmaPayload = resData.figmaPayload;
             } catch (e) {}
-            bannerResult = { 
+            bannerResult = {
               banners: (result as { banners: unknown[] }).banners,
-              figmaPayload
-            };
+              figmaPayload,
+            } as { banners: unknown[]; figmaPayload?: unknown };
           }
           if (result.type === "preview") {
             previewResult = { previewImages: (result as { previewImages: { url: string; label: string }[] }).previewImages };
